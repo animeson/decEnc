@@ -8,7 +8,7 @@ public class read {
 
     public static String line (String[] args) {
         String text = "";
-        String result[] = input.number(args);
+        String[] result = input.number(args);
         if (result[2].equals("")) {
             text = result[4];
         }

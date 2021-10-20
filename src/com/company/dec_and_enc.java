@@ -3,13 +3,13 @@ package com.company;
 public class dec_and_enc {
     public static String word(String[] args) {
         int kay;
-        int word = 0;
-        String alg = "";
-        String new_word = "";
+        int word;
+        String alg;
+        StringBuilder new_word = new StringBuilder();
         String mode;
         int y = 0;
         String text = read.line(args);
-        String result[] = input.number(args);
+        String[] result = input.number(args);
         if (result[0].equals("")){
             kay = 0;
         } else {
@@ -27,11 +27,11 @@ public class dec_and_enc {
             alg = result[5];
         }
         for (int i = 0; i < text.length(); i++) {
-
-
+            boolean uppercaseLetters = text.charAt(i) >= 65 && text.charAt(i) <= 90;
+            boolean lowerCase = text.charAt(i) >= 97 && text.charAt(i) <= 122;
 
             switch (mode) {
-                case "dec":
+                case "dec" -> {
                     word = text.charAt(i) - kay;
                     if (alg.equals("shift")) {
                         if (text.charAt(i) == 32) {
@@ -40,21 +40,20 @@ public class dec_and_enc {
                         if (text.charAt(i) == 33) {
                             y = 33;
                         }
-                        if (text.charAt(i) >= 97 && text.charAt(i) <= 122) {
+                        if (lowerCase) {
                             y = (word - 122) % 26 + 122;
 
                         }
-                        if (text.charAt(i) >= 65 && text.charAt(i) <= 90) {
+                        if (uppercaseLetters) {
                             y = (word + 65) % 26 + 65;
                         }
-                        new_word += (char) word;
+                        new_word.append((char) word);
                     }
                     else if (alg.equals("unicode")) {
-                        new_word += (char) word;
+                        new_word.append((char) word);
                     }
-
-                    break;
-                case "enc":
+                }
+                case "enc" -> {
                     word = text.charAt(i) + kay;
                     if (alg.equals("shift")) {
                         if (text.charAt(i) == 32) {
@@ -63,22 +62,18 @@ public class dec_and_enc {
                         if (text.charAt(i) == 33) {
                             y = 33;
                         }
-                        if (text.charAt(i) >= 97 && text.charAt(i) <= 122) {
+                        if (lowerCase) {
                             y = (word - 97) % 26 + 97;
                         }
-                        if (text.charAt(i) >= 65 && text.charAt(i) <= 90) {
+                        if (uppercaseLetters) {
                             y = (word + 65) % 26 + 65;
                         }
-                        new_word += (char) y;
+                        new_word.append((char) y);
+                    } else if (alg.equals("unicode")) {
+                        new_word.append((char) word);
                     }
-                    else if (alg.equals("unicode")) {
-                        new_word += (char) word;
-                    }
-
-
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + mode);
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + mode);
             }
 
 
@@ -86,7 +81,7 @@ public class dec_and_enc {
 
 
 
-        return new_word;
+        return new_word.toString();
 
     }
 
